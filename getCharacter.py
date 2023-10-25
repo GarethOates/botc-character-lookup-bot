@@ -37,15 +37,8 @@ def capitalize_words_around_symbol(input_str, symbol):
     return symbol.join(capitalized_parts)
 
 
-def capitalize_first_letter(string):
-    if not string:
-        return string
-    else:
-        return string[0].upper() + string[1:].lower()
-
-
 def sanitize_string(input_str):
-    result = capitalize_first_letter(input_str)
+    result = input_str.capitalize()
     result = capitalize_words_around_symbol(result, " ")
     result = capitalize_words_around_symbol(result, "-")
 
