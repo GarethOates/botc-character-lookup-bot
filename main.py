@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from discord.ext import commands
 from urllib.parse import quote
 
-from getCharacter import get_info_for_character
+from get_character import get_info_for_character
 
 load_dotenv()
 
@@ -17,6 +17,19 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
 def get_image_url(name):
     return name.lower().replace(' ', '').replace('-', '').replace("'", "")
+
+
+def create_embed(name, type, colour, ability, edition):
+    editionLink = f'[{edition}]({BOTC_BASE}{quote(edition)})'
+    characterLink = f'[{name}]({BOTC_BASE}{quote(name)})'
+
+    embed = discord.Embed(title=name, description=type, color=colour)
+    embed.set_thumbnail(url=f'{IMAGE_BASE}{type.lower()}/{get_image_url(name)}.png?raw=true')
+    embed.add_field(name="Ability", value=ability, inline=False)
+    embed.add_field(name="Found In", value=f'{editionLink} - {characterLink}', inline=False)
+
+    return embed
+
 
 @bot.event
 async def on_ready():
@@ -33,16 +46,14 @@ async def lookup(ctx, *, character):
             await ctx.send(info["error"])
         else:
             await ctx.send(f'Found 1 result for "{info["name"]}"')
-
-            editionLink = f'[{info["found"]}]({BOTC_BASE}{quote(info["found"])})'
-            characterLink = f'[{info["name"]}]({BOTC_BASE}{quote(info["name"])})'
-            lowerType = info["type"].lower()
-            lowerName = get_image_url(info["name"])
-
-            embed = discord.Embed(title=info["name"], description=info["type"], color=info["color"])
-            embed.set_thumbnail(url=f'{IMAGE_BASE}{lowerType}/{lowerName}.png?raw=true')
-            embed.add_field(name="Ability", value=info["ability"], inline=False)
-            embed.add_field(name="Found In", value=f'{editionLink} - {characterLink}', inline=False)
+            
+            embed = create_embed(
+                info["name"], 
+                info["type"], 
+                info["color"], 
+                info["ability"], 
+                info["edition"]
+            )
 
             await ctx.send(embed=embed)
     except Exception as error:
@@ -67,7 +78,12 @@ async def on_error(event, *args, **kwargs):
 
 @bot.command()
 @commands.is_owner()
-async def shutdown(context):
+async def shutdown(ctx):
     exit()
 
-bot.run(TOKEN)
+def main():
+    bot.run(TOKEN)
+
+
+if __name__ == '__main__':
+    main()

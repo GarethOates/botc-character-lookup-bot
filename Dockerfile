@@ -5,7 +5,7 @@ ADD requirements.txt /
 RUN pip install -r requirements.txt
 
 ADD .env /
-ADD bot.py /
-ADD getCharacter.py /
+ADD main.py /
+ADD get_character.py /
 
-CMD ["python", "./bot.py"]
+CMD ["python", "./main.py"]

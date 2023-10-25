@@ -13,7 +13,7 @@ load_dotenv()
 
 WIKI_BASE = os.getenv('WIKI_BASE')
 
-color_dictionary = {
+character_colours = {
     'Townsfolk': 0x004EA1,
     'Outsider': 0x4EA4CB,
     'Minion': 0x521116,
@@ -49,11 +49,7 @@ def get_part_by_pattern(text, pattern):
     match = re.search(pattern, text, re.DOTALL)
 
     if match:
-        result = match.group(1).strip()
-        result = result.replace('"', '')
-        result = result.replace("Experimental Characters", "Experimental")
-
-        return result
+        return match.group(1).strip()
 
 
 def get_info_for_character(character):
@@ -70,16 +66,14 @@ def get_info_for_character(character):
     else:
         wikiText = remove_html_tags(jsonObject["parse"]["wikitext"])
 
-        summary = get_part_by_pattern(wikiText, SUMMARY_PATTERN)
+        summary = get_part_by_pattern(wikiText, SUMMARY_PATTERN).replace('"', '')
         type = get_part_by_pattern(wikiText, TYPE_PATTERN)
-        edition = get_part_by_pattern(wikiText, EDITION_PATTERN)
+        edition = get_part_by_pattern(wikiText, EDITION_PATTERN).replace("Experimental Characters", "Experimental")
 
-        dictionary = {
+        return {
             'name': character,
             'type': type,
             'ability': summary,
-            'found': edition,
-            'color': color_dictionary[type]
+            'edition': edition,
+            'color': character_colours[type]
         }
-
-        return dictionary
