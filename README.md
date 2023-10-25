@@ -31,5 +31,5 @@ BOTC_BASE=https://wiki.bloodontheclocktower.com/
 ## How to run
 
 ```bash
-python bot.py
+python main.py
 ```
