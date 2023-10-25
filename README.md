@@ -11,6 +11,7 @@ Both of these data sources are flakey and could change at any time.  This bot wo
 but may fail in future and require modification.
 
 ## Warning
+
 Please note, the means by which the Docker container is created is not safe.  Your .env file
 with your Discord token is being copied inside the Docker image.  If you make your image
 available on a public repository, anyone with access to the image, can steal your bot's token.
@@ -19,6 +20,7 @@ The better way to do this would be to add the variable in as an environment vari
 running the docker container with the `-e` flag.
 
 ## What you need to run the bot
+
 You will need to crate a .env file, with the following values:
 
 ```cfg
