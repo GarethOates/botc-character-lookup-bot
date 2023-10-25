@@ -1,4 +1,4 @@
-# BOTC Character Lookup Bot
+# Blood on the Clocktower Character Lookup Bot
 
 This is a very basic discord bot that fetches the ability, type, edition and url for a character
 in Blood on the Clocktower.  It uses the official Blood on the Clocktower Wiki website, and the
