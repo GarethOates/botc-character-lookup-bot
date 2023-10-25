@@ -75,5 +75,5 @@ def get_info_for_character(character):
             'type': type,
             'ability': summary,
             'edition': edition,
-            'color': character_colours[type]
+            'colour': character_colours[type]
         }

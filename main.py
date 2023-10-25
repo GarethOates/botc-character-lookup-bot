@@ -19,13 +19,13 @@ def get_image_url(name):
     return name.lower().replace(' ', '').replace('-', '').replace("'", "")
 
 
-def create_embed(name, type, colour, ability, edition):
-    editionLink = f'[{edition}]({BOTC_BASE}{quote(edition)})'
-    characterLink = f'[{name}]({BOTC_BASE}{quote(name)})'
+def create_embed(info):
+    editionLink = f'[{info["edition"]}]({BOTC_BASE}{quote(info["edition"])})'
+    characterLink = f'[{info["name"]}]({BOTC_BASE}{quote(info["name"])})'
 
-    embed = discord.Embed(title=name, description=type, color=colour)
-    embed.set_thumbnail(url=f'{IMAGE_BASE}{type.lower()}/{get_image_url(name)}.png?raw=true')
-    embed.add_field(name="Ability", value=ability, inline=False)
+    embed = discord.Embed(title=info["name"], description=info["type"], color=info["colour"])
+    embed.set_thumbnail(url=f'{IMAGE_BASE}{info["type"].lower()}/{get_image_url(info["name"])}.png?raw=true')
+    embed.add_field(name="Ability", value=info["ability"], inline=False)
     embed.add_field(name="Found In", value=f'{editionLink} - {characterLink}', inline=False)
 
     return embed
@@ -41,21 +41,15 @@ async def lookup(ctx, *, character):
         return
     try:
         info = get_info_for_character(character)
-        
+
         if "error" in info:
             await ctx.send(info["error"])
-        else:
-            await ctx.send(f'Found 1 result for "{info["name"]}"')
-            
-            embed = create_embed(
-                info["name"], 
-                info["type"], 
-                info["color"], 
-                info["ability"], 
-                info["edition"]
-            )
+            return
+    
+        await ctx.send(f'Found 1 result for "{info["name"]}"')
+        embed = create_embed(info)
 
-            await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
     except Exception as error:
         print(error)
         await ctx.send("Something went wrong. Could not fetch data.")
