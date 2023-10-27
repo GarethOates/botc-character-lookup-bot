@@ -40,6 +40,8 @@ def easter_eggs(character):
             return "Ravenkeeper"
         case "Mikkel":
             return "Saint"
+        case _:
+            return character
 
 
 @bot.event
