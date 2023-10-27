@@ -30,6 +30,17 @@ def create_embed(info):
 
     return embed
 
+def easter_eggs(character):
+    match character:
+        case "Lars Erik":
+            return "Empath"
+        case "Kristaver":
+            return "Sweetheart"
+        case "Hammad":
+            return "Ravenkeeper"
+        case "Mikkel":
+            return "Saint"
+
 
 @bot.event
 async def on_ready():
@@ -40,6 +51,10 @@ async def lookup(ctx, *, character):
     if ctx.message.author == bot.user.name:
         return
     try:
+        print(character)
+
+        character = easter_eggs(character)
+
         info = get_info_for_character(character)
 
         if "error" in info:
