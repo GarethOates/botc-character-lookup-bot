@@ -53,8 +53,6 @@ async def lookup(ctx, *, character):
     if ctx.message.author == bot.user.name:
         return
     try:
-        print(character)
-
         character = easter_eggs(character)
 
         info = get_info_for_character(character)
