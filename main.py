@@ -12,6 +12,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 IMAGE_BASE = os.getenv('IMAGE_BASE')
 BOTC_BASE = os.getenv('BOTC_BASE')
+ENABLE_EASTER_EGGS = os.getenv('ENABLE_EASTER_EGGS')
 
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
@@ -53,7 +54,8 @@ async def lookup(ctx, *, character):
     if ctx.message.author == bot.user.name:
         return
     try:
-        character = easter_eggs(character)
+        if ENABLE_EASTER_EGGS == 'True':
+            character = easter_eggs(character)
 
         info = get_info_for_character(character)
 
